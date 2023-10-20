@@ -16,7 +16,7 @@ public class CameraHandler : MonoBehaviour
     private void Awake()
     {
         _camera = Camera.main.transform;
-        _target = GameManager.Instance.Target;
+        _target = GameManager.Instance.Dropper;
     }
     
     private void Update()
