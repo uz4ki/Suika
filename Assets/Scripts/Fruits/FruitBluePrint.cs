@@ -7,6 +7,7 @@ namespace Fruits
     {
         public float radius;
         public int score;
+        public Sprite texture;
     }
 }
 

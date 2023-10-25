@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: 6
   m_EditorClassIdentifier: 
   radius: 1
-  score: 28
+  score: 21
+  texture: {fileID: 21300000, guid: 0351ffee1967c51448561020ce0c2133, type: 3}

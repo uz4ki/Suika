@@ -4,10 +4,16 @@ using Cysharp.Threading.Tasks;
 using DefaultNamespace;
 using Fruits;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : SingletonMonoBehaviour<GameManager>
 {
+    public int score;
     private bool _onGame;
+    
+    [HideInInspector] public int nowFruit;
+    [HideInInspector] public int nextFruit;
+    private int _count;
     public bool OnGame => _onGame;
     public bool isWaiting;
     [SerializeField] private Dropper dropper;
@@ -15,11 +21,23 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     [SerializeField] private float rotationSpeed = 1f;
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private CameraHandler cameraHandler;
+    [SerializeField] private GameObject gameOverObject;
 
+    private void Start()
+    {
+        InitializeGame();
+    }
     private void Update()
     {
+
+
+        if (!OnGame)
+        {
+            if (Input.GetKeyDown(KeyCode.Space)) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            return;
+        }
+        if (isWaiting) return;
         
-        if (GameManager.Instance.isWaiting) return;
 
         if (Input.GetKeyDown(KeyCode.W))
         {
@@ -35,22 +53,22 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         var rotationX = 0f;
         var moveX = 0f;
         
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.E))
         {
-            rotationX += 1f;
+           // rotationX += 1f;
         }
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.Q))
         {
-            rotationX -= 1f;
+            //rotationX -= 1f;
         }
         
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.D))
         {
             moveX += 1f;
         }
 
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKey(KeyCode.A))
         {
             moveX -= 1f;
         }
@@ -59,16 +77,50 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         dropper.MoveDropper(moveX);
     }
 
+    private void InitializeGame()
+    {
+        score = 0;
+        _onGame = true;
+        nowFruit = UnityEngine.Random.Range(0, 4);
+        nextFruit = UnityEngine.Random.Range(0, 4);
+        FruitManager.Instance.OnFruitUpdated.Invoke();
+        _count = 0;
+    }
+
     private async UniTask DropNewFruit()
     {
         isWaiting = true;
-        var fruit = FruitManager.Instance.InstantiateFruit(UnityEngine.Random.Range(0, 4), dropper.Position);
+        var fruit = FruitManager.Instance.InstantiateFruit(nowFruit, dropper.Position);
+        RefreshFruitCount();
+        FruitManager.Instance.OnFruitUpdated.Invoke();
         await FruitManager.Instance.WaitFruitCollision(fruit);
         isWaiting = false;
     }
 
+    
+    private void RefreshFruitCount()
+    {
+        _count++;
+        nowFruit = nextFruit;
+        if ((_count + 20) % 30 != 0)
+        {
+            nextFruit = UnityEngine.Random.Range(0, 4);
+        }
+        else
+        {
+            nextFruit = -1;
+        }
+    }
+    
     private void RotateTarget(float diff)
     {
         dropper.transform.Rotate(Vector3.up * diff * rotationSpeed);
+    }
+
+    public void GameOver()
+    {
+        Time.timeScale = 0f;
+        gameOverObject.SetActive(true);
+        _onGame = false;
     }
 }

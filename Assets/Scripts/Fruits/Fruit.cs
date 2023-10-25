@@ -6,12 +6,12 @@ namespace Fruits
     [RequireComponent(typeof(Rigidbody))]
     public class Fruit : MonoBehaviour
     {
+        public SpriteRenderer sprite;
         public int index;
         public bool isConverted;
         public bool hasCollided;
 
-
-        private void OnCollisionEnter(Collision collision)
+        protected virtual void OnCollisionEnter(Collision collision)
         {
             hasCollided = true;
             
