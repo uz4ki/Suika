@@ -51,7 +51,6 @@ public class CameraHandler : MonoBehaviour
 
     public async UniTask ToggleView()
     {
-        GameManager.Instance.isWaiting = true;
         if (_isTopDownView)
         {
             _isTopDownView = false;
@@ -63,7 +62,5 @@ public class CameraHandler : MonoBehaviour
             await _camera.DOMove(Vector3.up * height, 0.3f).ToUniTask();
             _isTopDownView = true;
         }
-
-        GameManager.Instance.isWaiting = false;
     }
 }

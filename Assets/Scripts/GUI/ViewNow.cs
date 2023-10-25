@@ -6,6 +6,7 @@ namespace GUI
     public class ViewNow : MonoBehaviour
     {
         private SpriteRenderer _renderer;
+        [SerializeField] private Sprite cherries;
 
         private void Awake()
         {
@@ -24,7 +25,12 @@ namespace GUI
             if (index == -1)
             {
                 _renderer.transform.localScale = Vector3.one;
-                _renderer.sprite = null;
+                _renderer.sprite = FruitManager.Instance.wonderPrefab.sprite.sprite;
+            }
+            else if (index == -2)
+            {  
+                _renderer.transform.localScale = Vector3.one * 2f * FruitManager.Instance.fruitBlueprints[0].radius;
+                _renderer.sprite = cherries;
             }
             else
             {

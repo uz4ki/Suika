@@ -5,6 +5,7 @@ namespace Fruits
     public class BillBoard : MonoBehaviour
     {
         private Camera _camera;
+        public bool isEnabled;
 
         private void Start()
         {
@@ -12,8 +13,8 @@ namespace Fruits
         }
         private void Update()
         {
-            var transform1 = transform;
-            transform1.forward = _camera.transform.position - transform1.position;
+            if (!isEnabled) return;
+            transform.forward = _camera.transform.position - transform.position;
         }
     }
 }

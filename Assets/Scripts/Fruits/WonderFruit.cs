@@ -12,10 +12,11 @@ namespace Fruits
             index = -1;
         }
 
-        protected override void OnCollisionEnter(Collision collision)
+        protected override void OnCollisionStay(Collision collision)
         {
             hasCollided = true;
             WonderManager.Instance.WonderAnimation().Forget();
+            Destroy(gameObject);
         }
     }
 }

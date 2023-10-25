@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DefaultNamespace;
 using Fruits;
+using InGame;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,6 +24,9 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     [SerializeField] private CameraHandler cameraHandler;
     [SerializeField] private GameObject gameOverObject;
 
+    private bool _isCherry =>
+        WonderManager.Instance.isWonder && WonderManager.Instance.state == WonderState.CherryShotGun;
+
     private void Start()
     {
         InitializeGame();
@@ -37,13 +41,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
             return;
         }
         if (isWaiting) return;
-        
-
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            cameraHandler.ToggleView().Forget();
-            return;
-        }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -80,6 +77,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     private void InitializeGame()
     {
         score = 0;
+        Time.timeScale = 1f;
         _onGame = true;
         nowFruit = UnityEngine.Random.Range(0, 4);
         nextFruit = UnityEngine.Random.Range(0, 4);
@@ -102,6 +100,15 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     {
         _count++;
         nowFruit = nextFruit;
+        if (WonderManager.Instance.isWonder)
+        {
+            WonderManager.Instance.RefreshWonderCount();
+            if (_isCherry)
+            {
+                nextFruit = -2;
+                return;
+            }
+        }
         if ((_count + 20) % 30 != 0)
         {
             nextFruit = UnityEngine.Random.Range(0, 4);
@@ -110,6 +117,11 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         {
             nextFruit = -1;
         }
+    }
+
+    public async UniTask ToggleView()
+    {
+        await cameraHandler.ToggleView();
     }
     
     private void RotateTarget(float diff)
@@ -121,6 +133,13 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     {
         Time.timeScale = 0f;
         gameOverObject.SetActive(true);
+        if (FruitManager.Instance.isTopView) ToggleView().Forget();
         _onGame = false;
+    }
+
+    public void ToggleDropperPos()
+    {
+        if (WonderManager.Instance.isWonder) dropper.ToTop().Forget();
+        else dropper.ToBottom().Forget();
     }
 }

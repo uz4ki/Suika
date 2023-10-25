@@ -92,11 +92,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 681352026998993440}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f252d808ff1c3df4ca7a6a8b8f1e0022, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnabled: 0
 --- !u!1 &6835650262246957904
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,7 +214,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6835650262246957904}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 2
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -248,3 +249,4 @@ MonoBehaviour:
   index: 0
   isConverted: 0
   hasCollided: 0
+  _billboard: {fileID: 3188589303124340427}
