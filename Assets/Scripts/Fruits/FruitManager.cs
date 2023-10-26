@@ -13,6 +13,7 @@ namespace Fruits
     public class FruitManager : SingletonMonoBehaviour<FruitManager>
     {
         [SerializeField] public FruitBlueprint[] fruitBlueprints;
+        [SerializeField] public FruitBlueprint[] extraFruits;
         [SerializeField] private Image[] images;
         [SerializeField] private Transform fruitsParent;
         [SerializeField] private Fruit prefab;
@@ -26,11 +27,9 @@ namespace Fruits
 
         [HideInInspector] public bool isDriving => WonderManager.Instance.isWonder && WonderManager.Instance.state == WonderState.Driving;
         [HideInInspector] public bool isTopView => WonderManager.Instance.isWonder && WonderManager.Instance.state == WonderState.TopView;
-        
-        [HideInInspector] public bool noConvert => WonderManager.Instance.isWonder && WonderManager.Instance.state == WonderState.NoConvert;
         [HideInInspector] public bool isShuffle => WonderManager.Instance.isWonder && WonderManager.Instance.state == WonderState.EvolutionShuffle;
+        [HideInInspector] public bool isBigSmall => WonderManager.Instance.isWonder && WonderManager.Instance.state == WonderState.BigSmall;
 
-        
         
         public async UniTask WaitFruitCollision(Fruit fruit)
         {
@@ -51,7 +50,7 @@ namespace Fruits
 
         public void RefreshEvoCircle()
         {
-            if (!isShuffle)
+            if (isShuffle)
             {
                 Shuffle();
                 for (var i = 0; i < fruitBlueprints.Length; i++)
@@ -106,12 +105,19 @@ namespace Fruits
 
             if (index == -2)
             {
-                InstantiateFruit(0, position - Vector3.right * 0.15f + Vector3.up * 0.3f);
-                InstantiateFruit(0, position + Vector3.right * 0.15f + Vector3.up * 0.3f);
+                InstantiateFruit(0, position - Vector3.right * 0.2f + Vector3.up * 0.3f);
+                InstantiateFruit(0, position + Vector3.right * 0.2f + Vector3.up * 0.3f);
                 return InstantiateFruit(1, position);
             }
+
+            var blueprint = new FruitBlueprint();
             
-            var blueprint = fruitBlueprints[index];
+            if (index < 0)
+            {
+                if (index == -3) blueprint = extraFruits[0];
+                else if (index == -4) blueprint = extraFruits[1];
+            }
+            else blueprint = fruitBlueprints[index];
             var fruit = Instantiate(prefab);
             var transform1 = fruit.transform;
             transform1.parent = fruitsParent;
@@ -119,7 +125,7 @@ namespace Fruits
             transform1.localScale = Vector3.one * blueprint.radius;
             fruit.index = index;
             fruit.sprite.sprite = blueprint.texture;
-            _nowFruits.Add(fruit);
+            if (index >= 0) _nowFruits.Add(fruit);
             OnFruitUpdated.Invoke();
             return fruit;
         }

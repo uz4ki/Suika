@@ -14,11 +14,6 @@ namespace GUI
             WonderManager.Instance.onCounterUpdate.AddListener(UpdateText);
         }
 
-        private void OnDisable()
-        {
-            WonderManager.Instance.onCounterUpdate.RemoveListener(UpdateText);
-        }
-
         private void UpdateText()
         {
             _text.text = WonderManager.Instance.counter.ToString();

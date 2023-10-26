@@ -14,11 +14,6 @@ namespace GUI
             _image = GetComponent<Image>();
             FruitManager.Instance.OnFruitUpdated.AddListener(UpdateNextFruitView);
         }
-        
-        private void OnDisable()
-        {
-            FruitManager.Instance.OnFruitUpdated.RemoveListener(UpdateNextFruitView);
-        }
 
         private void UpdateNextFruitView()
         {
@@ -30,6 +25,14 @@ namespace GUI
             else if (index == -2)
             {
                 _image.sprite = cherries;
+            }
+            else if (index == -3)
+            {
+                _image.sprite = FruitManager.Instance.extraFruits[0].texture;
+            }
+            else if (index == -4)
+            {
+                _image.sprite = FruitManager.Instance.extraFruits[1].texture;
             }
             else
             {

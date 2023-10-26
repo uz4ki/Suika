@@ -35,15 +35,26 @@ namespace Fruits
             _billboard.isEnabled = FruitManager.Instance.isTopView;
         }
 
-        protected virtual void OnCollisionStay(Collision collision)
+        protected virtual void OnCollisionEnter(Collision collision)
         {
             hasCollided = true;
 
-            if (FruitManager.Instance.noConvert) return;
-            
             var targetFruit = collision.gameObject.GetComponent<Fruit>();
-            if (targetFruit == null || targetFruit.isConverted || this.index != targetFruit.index) return;
+            if (targetFruit == null || targetFruit.isConverted) return;
+
+            if (targetFruit.index == -3)
+            {
+                transform.localScale *= 1.5f;
+                Destroy(targetFruit.gameObject);
+            }
+            if (targetFruit.index == -4)
+            {
+                transform.localScale *= 0.75f;
+                Destroy(targetFruit.gameObject);
+            }
             
+            if ( this.index != targetFruit.index) return;
+
             isConverted = true;
             targetFruit.isConverted = true;
             

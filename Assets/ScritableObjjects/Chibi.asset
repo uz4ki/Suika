@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bfc66f4b5694a545bd1c829b77ed4be, type: 3}
+  m_Name: Chibi
+  m_EditorClassIdentifier: 
+  radius: 0.5
+  score: 0
+  texture: {fileID: 21300000, guid: 8597001287dd1004fa0efd7f38b43f84, type: 3}

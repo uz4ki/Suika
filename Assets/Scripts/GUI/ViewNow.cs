@@ -14,10 +14,6 @@ namespace GUI
             FruitManager.Instance.OnFruitUpdated.AddListener(UpdateNextFruitView);
         }
         
-        private void OnDisable()
-        {
-            FruitManager.Instance.OnFruitUpdated.RemoveListener(UpdateNextFruitView);
-        }
 
         private void UpdateNextFruitView()
         {
@@ -31,6 +27,16 @@ namespace GUI
             {  
                 _renderer.transform.localScale = Vector3.one * 2f * FruitManager.Instance.fruitBlueprints[0].radius;
                 _renderer.sprite = cherries;
+            }
+            else if (index == -3)
+            {  
+                _renderer.transform.localScale = Vector3.one * 0.5f;
+                _renderer.sprite = FruitManager.Instance.extraFruits[0].texture;
+            }
+            else if (index == -4)
+            {  
+                _renderer.transform.localScale = Vector3.one * 0.5f;
+                _renderer.sprite = FruitManager.Instance.extraFruits[1].texture;
             }
             else
             {

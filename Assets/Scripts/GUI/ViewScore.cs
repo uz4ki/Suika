@@ -14,11 +14,6 @@ namespace GUI
             FruitManager.Instance.OnFruitUpdated.AddListener(UpdateScoreText);
         }
 
-        private void OnDisable()
-        {
-            FruitManager.Instance.OnFruitUpdated.RemoveListener(UpdateScoreText);
-        }
-
         private void UpdateScoreText()
         {
             _text.text = GameManager.Instance.score.ToString();

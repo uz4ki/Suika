@@ -108,8 +108,14 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
                 nextFruit = -2;
                 return;
             }
+
+            if (FruitManager.Instance.isBigSmall)
+            {
+                nextFruit = -4 + UnityEngine.Random.Range(0, 2);
+                return;
+            }
         }
-        if ((_count + 20) % 30 != 0)
+        if ((_count + 25) % 35 != 0)
         {
             nextFruit = UnityEngine.Random.Range(0, 4);
         }

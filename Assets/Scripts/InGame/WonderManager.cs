@@ -14,7 +14,7 @@ namespace InGame
         CherryShotGun = 0,
         Driving = 1,
         TopView = 2,
-        NoConvert = 3,
+        BigSmall = 3,
         FromBottom = 4,
         EvolutionShuffle = 5
     }
@@ -47,7 +47,8 @@ namespace InGame
         private void StartWonder()
         {
             counter = 9;
-            state = (WonderState) UnityEngine.Random.Range(0, 6);
+            state = (WonderState) 3;//UnityEngine.Random.Range(0, 6);
+            
             if (state == (WonderState)0)
             {
                 GameManager.Instance.nowFruit = -2;
@@ -58,17 +59,27 @@ namespace InGame
             {
                 GameManager.Instance.ToggleView().Forget();
             }
+
+            if (state == WonderState.BigSmall)
+            {
+                GameManager.Instance.nowFruit = -3;
+                GameManager.Instance.nextFruit = -4;
+                FruitManager.Instance.OnFruitUpdated.Invoke();
+
+            }
             if (state == (WonderState) 4)
             {
                 GameManager.Instance.ToggleDropperPos();
             }
 
+            
+            onCounterUpdate.Invoke();
+            isWonder = true;
+            
             if (state == (WonderState) 5)
             {
                 FruitManager.Instance.RefreshEvoCircle();
             }
-            onCounterUpdate.Invoke();
-            isWonder = true;
         }
 
         public async UniTask RefreshWonderCount()
@@ -86,12 +97,13 @@ namespace InGame
                 {
                     GameManager.Instance.ToggleDropperPos();
                 }
+
+                isWonder = false;
+                
                 if (state == (WonderState) 5)
                 {
                     FruitManager.Instance.RefreshEvoCircle();
                 }
-
-                isWonder = false;
                 
             }
             onCounterUpdate.Invoke();
