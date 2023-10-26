@@ -49,28 +49,18 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         
         var rotationX = 0f;
         var moveX = 0f;
-        
-        if (Input.GetKey(KeyCode.E))
-        {
-           // rotationX += 1f;
-        }
 
-        if (Input.GetKey(KeyCode.Q))
-        {
-            //rotationX -= 1f;
-        }
-        
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             moveX += 1f;
         }
 
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             moveX -= 1f;
         }
         
-        RotateTarget(rotationX);
+        //RotateTarget(rotationX);
         dropper.MoveDropper(moveX);
     }
 

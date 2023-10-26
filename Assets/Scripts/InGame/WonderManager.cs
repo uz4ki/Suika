@@ -22,6 +22,7 @@ namespace InGame
     {
         [SerializeField] private WonderFlowerView flowerView;
         [SerializeField] private PostProcessVolume processVolume;
+        [SerializeField] private ViewWonderText viewWonderText;
         public bool isWonder;
         public WonderState state;
         public int counter;
@@ -47,7 +48,7 @@ namespace InGame
         private void StartWonder()
         {
             counter = 9;
-            state = (WonderState) 3;//UnityEngine.Random.Range(0, 6);
+            state = (WonderState) UnityEngine.Random.Range(0, 6);
             
             if (state == (WonderState)0)
             {
@@ -80,6 +81,8 @@ namespace InGame
             {
                 FruitManager.Instance.RefreshEvoCircle();
             }
+            
+            viewWonderText.UpdateText();
         }
 
         public async UniTask RefreshWonderCount()
@@ -105,6 +108,7 @@ namespace InGame
                     FruitManager.Instance.RefreshEvoCircle();
                 }
                 
+                viewWonderText.UpdateText();
             }
             onCounterUpdate.Invoke();
         }
